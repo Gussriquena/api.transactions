@@ -7,7 +7,11 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 @Service
 @AllArgsConstructor
 public class ReportService {
@@ -15,8 +19,15 @@ public class ReportService {
     @Autowired
     private final ReportRepository reportRepository;
 
-    public List<Report> getDailyReport(){
-        return mapDtoToReport(reportRepository.getDailyReport());
+    public Map<LocalDate, Map<String, Integer>> getDailyReport(){
+        List<Report> reports = mapDtoToReport(reportRepository.getDailyReport());
+        return reports
+                .stream()
+                .collect(
+                    Collectors.groupingBy(Report::getDate,
+                    Collectors.groupingBy(Report::getName,
+                    Collectors.summingInt(Report::getTransactionsAmount)))
+                );
     }
 
     private List<Report> mapDtoToReport(List<ReportDTO> reportDTOList){
@@ -28,5 +39,4 @@ public class ReportService {
                     .build())
                 .toList();
     }
-
 }

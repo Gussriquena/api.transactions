@@ -12,12 +12,13 @@ import java.util.List;
 public interface ReportRepository extends JpaRepository<Transaction, Integer> {
 
     @Query(value =
-            "SELECT t.date AS date, tt.name AS name, COUNT(t.date) AS transactionsAmount " +
+            "SELECT t.date, tt.name, COUNT(t.date) AS transactionsAmount " +
             "FROM transaction t " +
             "JOIN transaction_type tt " +
             "ON t.id_transaction_type_fk = tt.id_transaction " +
             "WHERE t.date IS NOT NULL and tt.name IS NOT NULL " +
-            "GROUP BY t.date, tt.name", nativeQuery = true)
+            "GROUP BY t.date, tt.name",
+            nativeQuery = true)
     List<ReportDTO> getDailyReport();
 
 }
