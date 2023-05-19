@@ -11,6 +11,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+
 @Service
 @AllArgsConstructor
 public class TransactionService {
@@ -24,7 +26,7 @@ public class TransactionService {
     @Autowired
     private final ProductRepository productRepository;
 
-    public Object insertDebitTransaction(TransactionDTO transactionDTO){
+    public Transaction insertDebitTransaction(TransactionDTO transactionDTO){
         Transaction transaction = createTransaction(transactionDTO);
         updateProductAmount(transaction);
         return transactionRepository.save(transaction);
@@ -32,7 +34,7 @@ public class TransactionService {
 
     private void updateProductAmount(Transaction transaction){
         int productCurrentAmount = transaction.getProduct().getAmount();
-        int amountToUpdate = transaction.getTransactionAmount();
+        int amountToUpdate = transaction.getAmount();
         String type = transaction.getTransactionType().getName();
 
         switch (type){
@@ -49,9 +51,10 @@ public class TransactionService {
 
         return Transaction.builder()
                 .price(transactionDTO.getPrice())
-                .transactionAmount(transactionDTO.getTransactionAmount())
+                .amount(transactionDTO.getTransactionAmount())
                 .transactionType(type)
                 .product(product)
+                .date(LocalDate.now())
                 .build();
     }
 }

@@ -13,8 +13,9 @@ CREATE TABLE public.transaction_type (
 
 CREATE TABLE public."transaction" (
 	id_transaction bigserial NOT NULL,
+	amount int4 NOT NULL,
+	"date" date NULL,
 	price numeric(38, 2) NULL,
-	transaction_amount int4 NOT NULL,
 	id_product_fk int8 NULL,
 	id_transaction_type_fk int8 NULL,
 	CONSTRAINT transaction_pkey PRIMARY KEY (id_transaction)
