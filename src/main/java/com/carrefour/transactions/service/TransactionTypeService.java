@@ -1,6 +1,7 @@
 package com.carrefour.transactions.service;
 
 import com.carrefour.transactions.domain.model.TransactionType;
+import com.carrefour.transactions.exception.ItemNotFoundException;
 import com.carrefour.transactions.repository.TransactionTypeRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +19,11 @@ public class TransactionTypeService {
     private final TransactionTypeRepository transactionTypeRepository;
 
     public List<TransactionType> listTransactionTypes(){
-        log.info("Listing Transaction Types");
-        return transactionTypeRepository.findAll();
+        try {
+            log.info("Listing Transaction Types");
+            return transactionTypeRepository.findAll();
+        } catch(Exception e){
+            throw new ItemNotFoundException(e.getMessage());
+        }
     }
 }

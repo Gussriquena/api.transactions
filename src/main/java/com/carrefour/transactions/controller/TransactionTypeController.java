@@ -1,15 +1,13 @@
 package com.carrefour.transactions.controller;
 
-import com.carrefour.transactions.domain.model.TransactionType;
 import com.carrefour.transactions.service.TransactionTypeService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("api/v1/transaction-type")
@@ -21,9 +19,9 @@ public class TransactionTypeController {
     private final TransactionTypeService transactionTypeService;
 
     @GetMapping
-    public List<TransactionType> listTransactionTypes(){
+    public ResponseEntity<?> listTransactionTypes(){
         log.info("Listing all transaction types");
-        return transactionTypeService.listTransactionTypes();
+        return ResponseEntity.ok().body(transactionTypeService.listTransactionTypes());
     }
 
 }

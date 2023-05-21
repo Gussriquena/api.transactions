@@ -4,12 +4,10 @@ import com.carrefour.transactions.service.ReportService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.time.LocalDate;
-import java.util.Map;
 
 @RestController
 @RequestMapping("api/v1/report")
@@ -21,8 +19,8 @@ public class ReportController {
     private final ReportService reportService;
 
     @GetMapping("/daily")
-    public Map<LocalDate, Map<String, Integer>> getDailyReport(){
+    public ResponseEntity<?> getDailyReport(){
         log.info("Getting consolidated transactions type by day");
-        return reportService.getDailyReport();
+        return ResponseEntity.ok().body(reportService.getDailyReport());
     }
 }

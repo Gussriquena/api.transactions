@@ -2,6 +2,7 @@ package com.carrefour.transactions.service;
 
 import com.carrefour.transactions.domain.dto.ReportDTO;
 import com.carrefour.transactions.domain.model.Report;
+import com.carrefour.transactions.exception.ItemNotFoundException;
 import com.carrefour.transactions.repository.ReportRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,24 +23,29 @@ public class ReportService {
     private final ReportRepository reportRepository;
 
     public Map<LocalDate, Map<String, Integer>> getDailyReport(){
-        List<ReportDTO> reportDtos = reportRepository.getDailyReport();
-        log.info("{} registers found", reportDtos.size());
+        try {
+            List<ReportDTO> reportDtos = reportRepository.getDailyReport();
+            log.info("{} registers found", reportDtos.size());
 
-        List<Report> reports = mapDtoToReport(reportDtos);
+            List<Report> reports = mapDtoToReport(reportDtos);
 
-        return reports
-                .stream()
-                .collect(
-                    Collectors.groupingBy(Report::getDate,
-                    Collectors.groupingBy(Report::getName,
-                    Collectors.summingInt(Report::getTransactionsAmount)))
-                );
+            return reports
+                    .stream()
+                    .collect(
+                            Collectors.groupingBy(Report::getDate,
+                                    Collectors.groupingBy(Report::getName,
+                                            Collectors.summingInt(Report::getTransactionsAmount)))
+                    );
+        } catch (Exception e){
+            throw new ItemNotFoundException(e.getMessage());
+        }
     }
 
-    private List<Report> mapDtoToReport(List<ReportDTO> reportDTOList){
+    private List<Report> mapDtoToReport(List<ReportDTO> reportDTOList) throws Exception{
         log.info("Mapping from DTO to Report");
 
-        return reportDTOList.stream()
+        return reportDTOList
+                .stream()
                 .map(dto -> Report.builder()
                     .date(dto.getDate())
                     .name(dto.getName())

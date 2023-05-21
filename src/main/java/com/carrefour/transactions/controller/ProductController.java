@@ -5,7 +5,10 @@ import com.carrefour.transactions.service.ProductService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import static java.util.Objects.isNull;
 
 @RestController
 @RequestMapping(path="api/v1/product")
@@ -17,15 +20,20 @@ public class ProductController {
     private final ProductService productService;
 
     @PostMapping
-    public Product insertProduct(@RequestBody Product product){
+    public ResponseEntity<?> insertProduct(@RequestBody Product product){
+        if(isNull(product.getName())){
+            log.error("Found null fields on requestBody");
+            return ResponseEntity.badRequest().body("Product name can't be null");
+        }
+
         log.info("Inserting product: {}", product.getName());
-        return productService.insertProduct(product);
+        return ResponseEntity.ok().body(productService.insertProduct(product));
     }
 
     @GetMapping
-    public Object listProducts(){
+    public ResponseEntity<?> listProducts(){
         log.info("Listing all products");
-        return productService.listProducts();
+        return ResponseEntity.ok().body(productService.listProducts());
     }
 
 }

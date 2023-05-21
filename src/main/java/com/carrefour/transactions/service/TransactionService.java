@@ -4,6 +4,8 @@ import com.carrefour.transactions.domain.dto.TransactionDTO;
 import com.carrefour.transactions.domain.model.Product;
 import com.carrefour.transactions.domain.model.Transaction;
 import com.carrefour.transactions.domain.model.TransactionType;
+import com.carrefour.transactions.exception.FailedInsertingItem;
+import com.carrefour.transactions.exception.ItemNotFoundException;
 import com.carrefour.transactions.repository.ProductRepository;
 import com.carrefour.transactions.repository.TransactionRepository;
 import com.carrefour.transactions.repository.TransactionTypeRepository;
@@ -30,13 +32,17 @@ public class TransactionService {
     private final ProductRepository productRepository;
 
     public Transaction insertTransaction(TransactionDTO transactionDTO){
-        log.info("Inserting Transaction");
-        Transaction transaction = createTransaction(transactionDTO);
-        updateProductAmount(transaction);
-        return transactionRepository.save(transaction);
+        try {
+            log.info("Inserting Transaction");
+            Transaction transaction = createTransaction(transactionDTO);
+            updateProductAmount(transaction);
+            return transactionRepository.save(transaction);
+        } catch(Exception e){
+            throw new FailedInsertingItem(e.getMessage());
+        }
     }
 
-    private void updateProductAmount(Transaction transaction){
+    private void updateProductAmount(Transaction transaction) throws Exception{
         log.info("Updating amount of product: {}", transaction.getProduct().getName());
         int productCurrentAmount = transaction.getProduct().getAmount();
         int amountToUpdate = transaction.getAmount();
@@ -52,10 +58,12 @@ public class TransactionService {
 
     private Transaction createTransaction(TransactionDTO transactionDTO){
         log.info("Searching TransactionType by ID {}", transactionDTO.getIdTransactionType());
-        TransactionType type = transactionTypeRepository.findById(transactionDTO.getIdTransactionType()).get();
+        TransactionType type = transactionTypeRepository.findById(transactionDTO.getIdTransactionType())
+                .orElseThrow(() -> new ItemNotFoundException("transactionType not found"));
 
         log.info("Searching Product by ID {}", transactionDTO.getIdProduct());
-        Product product = productRepository.findById(transactionDTO.getIdProduct()).get();
+        Product product = productRepository.findById(transactionDTO.getIdProduct())
+                .orElseThrow(() -> new ItemNotFoundException("product not found"));
 
         log.info("Creating final Transaction");
         return Transaction.builder()
@@ -68,14 +76,22 @@ public class TransactionService {
     }
 
     public List<Transaction> listAllTransactions() {
-        List<Transaction> transactions = transactionRepository.findAll();
-        log.info("{} transactions found", transactions.size());
-        return transactions;
+        try {
+            List<Transaction> transactions = transactionRepository.findAll();
+            log.info("{} transactions found", transactions.size());
+            return transactions;
+        } catch(Exception e){
+            throw new ItemNotFoundException(e.getMessage());
+        }
     }
 
     public List<Transaction> listTransactionsByDate(LocalDate date) {
-        List<Transaction> transactions = transactionRepository.findByDate(date);
-        log.info("{} transactions found", transactions.size());
-        return transactions;
+        try {
+            List<Transaction> transactions = transactionRepository.findByDate(date);
+            log.info("{} transactions found", transactions.size());
+            return transactions;
+        } catch(Exception e){
+            throw new ItemNotFoundException(e.getMessage());
+        }
     }
 }
