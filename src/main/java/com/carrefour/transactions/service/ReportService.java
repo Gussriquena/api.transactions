@@ -4,6 +4,7 @@ import com.carrefour.transactions.domain.dto.ReportDTO;
 import com.carrefour.transactions.domain.model.Report;
 import com.carrefour.transactions.repository.ReportRepository;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,13 +15,18 @@ import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
+@Slf4j
 public class ReportService {
 
     @Autowired
     private final ReportRepository reportRepository;
 
     public Map<LocalDate, Map<String, Integer>> getDailyReport(){
-        List<Report> reports = mapDtoToReport(reportRepository.getDailyReport());
+        List<ReportDTO> reportDtos = reportRepository.getDailyReport();
+        log.info("{} registers found", reportDtos.size());
+
+        List<Report> reports = mapDtoToReport(reportDtos);
+
         return reports
                 .stream()
                 .collect(
@@ -31,6 +37,8 @@ public class ReportService {
     }
 
     private List<Report> mapDtoToReport(List<ReportDTO> reportDTOList){
+        log.info("Mapping from DTO to Report");
+
         return reportDTOList.stream()
                 .map(dto -> Report.builder()
                     .date(dto.getDate())

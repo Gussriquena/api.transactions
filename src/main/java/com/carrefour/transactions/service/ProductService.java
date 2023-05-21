@@ -3,6 +3,7 @@ package com.carrefour.transactions.service;
 import com.carrefour.transactions.domain.model.Product;
 import com.carrefour.transactions.repository.ProductRepository;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
