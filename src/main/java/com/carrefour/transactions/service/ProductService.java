@@ -7,8 +7,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @AllArgsConstructor
+@Slf4j
 public class ProductService {
 
     @Autowired
@@ -16,5 +19,12 @@ public class ProductService {
 
     public Product insertProduct(Product product){
         return productRepository.save(product);
+    }
+
+    public List<Product> listProducts() {
+        List<Product> products = productRepository.findAll();
+
+        log.info("{} products found", products.size());
+        return products;
     }
 }

@@ -17,9 +17,15 @@ public class ProductController {
     private final ProductService productService;
 
     @PostMapping
-    public Object insertProduct(@RequestBody Product product){
+    public Product insertProduct(@RequestBody Product product){
         log.info("Inserting product: {}", product.getName());
         return productService.insertProduct(product);
+    }
+
+    @GetMapping
+    public Object listProducts(){
+        log.info("Listing all products");
+        return productService.listProducts();
     }
 
 }

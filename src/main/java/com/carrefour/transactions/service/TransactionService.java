@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -64,5 +65,17 @@ public class TransactionService {
                 .product(product)
                 .date(LocalDate.now())
                 .build();
+    }
+
+    public List<Transaction> listAllTransactions() {
+        List<Transaction> transactions = transactionRepository.findAll();
+        log.info("{} transactions found", transactions.size());
+        return transactions;
+    }
+
+    public List<Transaction> listTransactionsByDate(LocalDate date) {
+        List<Transaction> transactions = transactionRepository.findByDate(date);
+        log.info("{} transactions found", transactions.size());
+        return transactions;
     }
 }

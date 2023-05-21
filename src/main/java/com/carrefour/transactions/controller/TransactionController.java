@@ -6,10 +6,10 @@ import com.carrefour.transactions.service.TransactionService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
+import java.util.List;
 
 import static com.carrefour.transactions.util.Constants.CREDIT;
 import static com.carrefour.transactions.util.Constants.DEBIT;
@@ -41,6 +41,18 @@ public class TransactionController {
         log.info("Inserting new CREDIT transaction");
         transactionDTO.setIdTransactionType(CREDIT);
         return transactionService.insertTransaction(transactionDTO);
+    }
+
+    @GetMapping
+    public List<Transaction> listAllTransactions(){
+        log.info("Listing all transactions");
+        return transactionService.listAllTransactions();
+    }
+
+    @GetMapping("/{date}")
+    public List<Transaction> listTransactionsByDate(@PathVariable("date") LocalDate date){
+        log.info("Listing all transactions of day {}", date);
+        return transactionService.listTransactionsByDate(date);
     }
 
 }
