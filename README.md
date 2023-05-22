@@ -56,3 +56,12 @@ do projeto, são eles:
 - spring-boot-starter-data-jpa
 - spring-boot-starter-web
 - spring-boot-starter-test
+
+## Versionamento
+
+Para versionamento de código está sendo utilizado repositório
+público no **Github**.
+
+[Gitmoji](https://gitmoji.dev/) com [Commit Conventional](https://gist.github.com/qoomon/5dfcdf8eec66a051ecd85625518cfd13) é o padrão adotado para mensagens
+de commit.
+
