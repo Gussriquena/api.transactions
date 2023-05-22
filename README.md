@@ -4,17 +4,13 @@ API para validação do conhecimento em spring e micro-serviços
 
 ## Escopo
 
-----
-
 "Um comerciante precisa controlar o seu fluxo de caixa diário com os lançamentos (débitos e  créditos), também precisa de um relatório que disponibilize o saldo diário consolidado".
 
 ## Projeto
 
-----
-
 Para criação do projeto foi estruturado o seguinte modelo de banco de dados
 
-![img.png](img.png)
+![img.png](doc/img.png)
 
 A tabela **product** foi adicionada para criar um 
 contexto de negócio para a aplicação e mostrar a possibilidade 
@@ -22,8 +18,6 @@ de escala e extensão do sistema existente, apenas acoplando
 novas tabelas à base principal (transaction e transaction_type)
 
 ## Ferramentas e setup
-
-----
 
 - JDK 17
 - Intellij IDEA
@@ -45,8 +39,6 @@ iniciado.
 
 ## Documentação
 
-----
-
 Todos os arquivos de documentação estão na pasta "doc" na raiz
 do projeto, são eles:
 
@@ -55,8 +47,6 @@ do projeto, são eles:
 
 
 ## Dependências
-
-----
 
 - Java 17
 - Spring 3.0.7
