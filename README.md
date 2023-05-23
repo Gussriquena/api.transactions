@@ -17,6 +17,11 @@ contexto de negócio para a aplicação e mostrar a possibilidade
 de escala e extensão do sistema existente, apenas acoplando 
 novas tabelas à base principal (transaction e transaction_type)
 
+Abaixo modelo relacionando os principais componentes e ferramentas que 
+envolvem a aplicação
+
+![](doc/architecture.drawio.png)
+
 ## Ferramentas e setup
 
 - JDK 17
@@ -44,6 +49,10 @@ do projeto, são eles:
 
 - Modelo de banco de dados editável ([draw.io](https://app.diagrams.net/))
 - Collection postman para testes da API
+- Desenho da arquitetura
+
+Ao executar a aplicação localmente, a documentação swagger pode ser acessada através
+do link: localhost: [http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html)
 
 
 ## Dependências
@@ -56,6 +65,8 @@ do projeto, são eles:
 - spring-boot-starter-data-jpa
 - spring-boot-starter-web
 - spring-boot-starter-test
+- springdoc-openapi-ui
+- springdoc-openapi-starter-webmvc-ui
 
 ## Versionamento
 
