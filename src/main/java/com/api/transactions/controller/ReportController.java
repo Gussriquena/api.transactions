@@ -1,6 +1,7 @@
 package com.api.transactions.controller;
 
 import com.api.transactions.service.ReportService;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ public class ReportController {
     private final ReportService reportService;
 
     @GetMapping("/daily")
+    @Operation(summary = "Get daily reports consolidated by day and type of transaction")
     public ResponseEntity<?> getDailyReport(){
         log.info("Getting consolidated transactions type by day");
         return ResponseEntity.ok().body(reportService.getDailyReport());

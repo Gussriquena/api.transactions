@@ -1,6 +1,7 @@
 package com.api.transactions.controller;
 
 import com.api.transactions.service.TransactionTypeService;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ public class TransactionTypeController {
     private final TransactionTypeService transactionTypeService;
 
     @GetMapping
+    @Operation(summary = "List all existing transaction types")
     public ResponseEntity<?> listTransactionTypes(){
         log.info("Listing all transaction types");
         return ResponseEntity.ok().body(transactionTypeService.listTransactionTypes());

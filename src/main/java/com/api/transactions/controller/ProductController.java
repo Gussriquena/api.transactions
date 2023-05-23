@@ -2,6 +2,7 @@ package com.api.transactions.controller;
 
 import com.api.transactions.domain.model.Product;
 import com.api.transactions.service.ProductService;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ public class ProductController {
     private final ProductService productService;
 
     @PostMapping
+    @Operation(summary = "Insert a new Product")
     public ResponseEntity<?> insertProduct(@RequestBody Product product){
         if(isNull(product.getName())){
             log.error("Found null fields on requestBody");
@@ -31,6 +33,7 @@ public class ProductController {
     }
 
     @GetMapping
+    @Operation(summary = "List all existing products")
     public ResponseEntity<?> listProducts(){
         log.info("Listing all products");
         return ResponseEntity.ok().body(productService.listProducts());
