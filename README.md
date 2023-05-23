@@ -54,6 +54,8 @@ do projeto, são eles:
 Ao executar a aplicação localmente, a documentação swagger pode ser acessada através
 do link: localhost: [http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html)
 
+As collections organizadas usadas para testes estão disponíveis em:
+[Postman Collection](https://github.com/Gussriquena/api.transactions/blob/main/doc/teste.postman_collection.json)
 
 ## Dependências
 
